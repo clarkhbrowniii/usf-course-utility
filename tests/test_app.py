@@ -48,7 +48,7 @@ class UtilityTests(unittest.TestCase):
         response.close()
 
     def test_placeholder_and_missing_paths(self):
-        with tempfile.TemporaryDirectory() as directory, patch.object(ISM6346Course, "COURSE_DIR", directory):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(self.app.config, {"ISM6346_COURSE_DIR": directory}), self.app.app_context():
             result = self.post_action("ism6346", "launch")
             self.assertIn("Course experience files could not be found.", result.text)
         self.assertIn("No course update was selected.", self.post_action("ism6346", "update").text)
@@ -80,7 +80,7 @@ class UtilityTests(unittest.TestCase):
 
     def test_course_resource_launch(self):
         # Never start a real server or browser during the test run.
-        with tempfile.TemporaryDirectory() as directory, patch.object(ISM6346Course, "COURSE_DIR", directory):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(self.app.config, {"ISM6346_COURSE_DIR": directory}), self.app.app_context():
             student_files = Path(directory) / "dt6000-student-files"
             student_files.mkdir()
             with patch("courses.ism6346.actions.subprocess.Popen") as popen, \
@@ -113,15 +113,16 @@ class UtilityTests(unittest.TestCase):
 
     def test_database_launchers(self):
         # Windows accepts the launch request; application readiness is not checked.
-        from courses.ism6417.actions import SQL_DEVELOPER_PATH, SQL_DBEAVER_PATH
-        for action, path in (("oracle", SQL_DEVELOPER_PATH), ("dbeaver", SQL_DBEAVER_PATH)):
+        oracle = self.app.config["ISM6417_ORACLE_TARGET"]
+        dbeaver = self.app.config["ISM6417_DBEAVER_TARGET"]
+        for action, path in (("oracle", oracle), ("dbeaver", dbeaver)):
             with patch("courses.ism6417.actions.os.startfile") as startfile:
                 self.assertIn("launched.", self.post_action("ism6417", action).text)
                 startfile.assert_called_once_with(path)
 
     def test_course_zip_upload(self):
         # Limit all replacement writes to a disposable course installation.
-        with tempfile.TemporaryDirectory() as directory, patch.object(ISM6346Course, "COURSE_DIR", directory):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(self.app.config, {"ISM6346_COURSE_DIR": directory}), self.app.app_context():
             destination = Path(directory) / "dt6000-student-files"
             destination.mkdir()
             original = destination / "old.txt"

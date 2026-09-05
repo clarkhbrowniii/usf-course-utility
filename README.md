@@ -19,17 +19,9 @@ The server binds to loopback with debug disabled. Keep it local: actions open ap
 
 ## Configuration
 
-Current course actions use workstation paths in their `actions.py` modules. For ISM 6346, edit `ISM6346Course.COURSE_DIR` and `COURSE_URL` in `courses/ism6346/actions.py`. For ISM 6417, edit `SQL_DEVELOPER_PATH` and `SQL_DBEAVER_PATH` in `courses/ism6417/actions.py`. Restart after changes.
-
-The optional shared `launch_path` helper uses the following `config.py` settings or matching environment variables. The current course classes do not use this helper.
-
-| Setting | Value |
-| --- | --- |
-| `ORACLE_SQL_DEVELOPER_PATH` | Absolute path to your Oracle SQL Developer `.exe` |
-| `DBEAVER_PATH` | Absolute path to your DBeaver `.exe` |
-| `ISM6346_COURSE_PATH` | Absolute path to a course executable, local HTML/document, or directory |
-
-For Oracle SQL Developer, locate its installed executable and assign that full path to `ORACLE_SQL_DEVELOPER_PATH`. For DBeaver, assign its installed executable to `DBEAVER_PATH`. When editing Python directly, use raw strings or forward slashes for Windows paths. Restart after configuration changes.
+1. Copy `config.example.py` to `config.py` before starting the application.
+2. Edit `ISM6346_COURSE_DIR`, `ISM6417_ORACLE_TARGET`, and `ISM6417_DBEAVER_TARGET` with your machine's local paths, then restart the application.
+3. `config.py` is intentionally excluded from Git because it contains machine-specific configuration. The public template contains only generic placeholders.
 
 Database connections are configured inside Oracle SQL Developer and DBeaver. This utility opens those applications; it does not provision or start database servers. Missing paths and failures appear in the course panel and log. Success means Windows accepted the launch request, not that the application or database is ready.
 

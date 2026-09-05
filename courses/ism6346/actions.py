@@ -6,12 +6,11 @@ import time
 import webbrowser
 import zipfile
 from pathlib import Path
+from flask import current_app
 
 
 class ISM6346Course:
     """Workstation-specific actions returning (status category, user message)."""
-
-    COURSE_DIR = r"C:\Users\chbro\Documents\Education\Programs\MS-AIBEI\ISM 6346\course_experience"
 
     COURSE_URL = (
         # The engine reads course version and student identity from this URL.
@@ -25,7 +24,7 @@ class ISM6346Course:
 
     def update_course_experience(self, course_zip):
         """Replace installed content using an uploaded Werkzeug ZIP stream."""
-        student_files = Path(self.COURSE_DIR) / "dt6000-student-files"
+        student_files = Path(current_app.config["ISM6346_COURSE_DIR"]) / "dt6000-student-files"
 
         if not course_zip or not course_zip.filename:
             return "warning", "No course update was selected."
@@ -67,7 +66,7 @@ class ISM6346Course:
 
     def launch_course_experience(self):
         """Start a separate HTTP server and open the configured student URL."""
-        student_files = Path(self.COURSE_DIR) / "dt6000-student-files"
+        student_files = Path(current_app.config["ISM6346_COURSE_DIR"]) / "dt6000-student-files"
 
         if not student_files.exists():
             return "error", "Course experience files could not be found."
