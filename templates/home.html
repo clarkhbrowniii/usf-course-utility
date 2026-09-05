@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<header class="content-heading">
+  <p class="eyebrow">YOUR ACADEMIC WORKSPACE</p>
+  <h1>Graduate Course<br>Experiences</h1>
+  <p class="program-subtitle">MS in AI in Business &amp; Enterprise Integration</p>
+</header>
+<div class="list-heading"><h2>COURSES</h2><span>{{ courses|length }} available</span></div>
+<nav class="course-list" aria-label="Graduate courses">
+  {% for course in courses %}
+  <a class="course-card" href="{{ url_for('course_page', course_code=course.id) }}">
+    <span class="card-icon"><i class="bi {{ course.icon }}" aria-hidden="true"></i></span>
+    <span class="card-copy"><span class="course-code">{{ course.code }}</span><span class="course-title">{{ course.title }}</span></span>
+    <i class="bi bi-chevron-right card-chevron" aria-hidden="true"></i>
+  </a>
+  {% endfor %}
+</nav>
+<p class="panel-note"><i class="bi bi-folder2-open" aria-hidden="true"></i> Select a course to open its utilities.</p>
+{% endblock %}

@@ -1,0 +1,118 @@
+{
+  "ism6346": {
+    "id": "ism6346",
+    "code": "ISM 6346",
+    "title": "Digital Business Transformation Foundations",
+    "description": "Your local tools and resources for Digital Business Transformation Foundations.",
+    "icon": "bi-diagram-3",
+    "enabled": true,
+    "actions": [
+      {
+        "id": "update",
+        "label": "Update Course Experience",
+        "icon": "bi-arrow-clockwise",
+        "description": "Refresh local course content and resources."
+      },
+      {
+        "id": "launch",
+        "label": "Launch Course Experience",
+        "icon": "bi-play-fill",
+        "description": "Open the Digital Business Transformation course experience."
+      }
+    ]
+  },
+  "ism6417": {
+    "id": "ism6417",
+    "code": "ISM 6417",
+    "title": "Business Data Foundations for AI",
+    "description": "Your local tools and resources for Business Data Foundations for AI.",
+    "icon": "bi-database",
+    "enabled": true,
+    "actions": [
+      {
+        "id": "oracle",
+        "label": "Launch Oracle SQL Developer DB",
+        "icon": "bi-database-fill",
+        "description": "Open Oracle SQL Developer and the course database environment."
+      },
+      {
+        "id": "dbeaver",
+        "label": "Launch DBeaver for Postgres DB",
+        "icon": "bi-database-gear",
+        "description": "Open DBeaver for the PostgreSQL course database environment."
+      }
+    ]
+  },
+  "ism6173": {
+    "id": "ism6173",
+    "code": "ISM 6173",
+    "title": "Agentic AI and Business Process Design",
+    "description": "Your local tools and resources for Agentic AI and Business Process Design.",
+    "icon": "bi-cpu",
+    "enabled": true,
+    "actions": []
+  },
+  "ism6468": {
+    "id": "ism6468",
+    "code": "ISM 6468",
+    "title": "Applied Machine Learning for Business",
+    "description": "Your local tools and resources for Applied Machine Learning for Business.",
+    "icon": "bi-bezier2",
+    "enabled": true,
+    "actions": []
+  },
+  "ism6150": {
+    "id": "ism6150",
+    "code": "ISM 6150",
+    "title": "Enterprise Data Analytics",
+    "description": "Your local tools and resources for Enterprise Data Analytics.",
+    "icon": "bi-bar-chart-line",
+    "enabled": true,
+    "actions": []
+  },
+  "ism6416": {
+    "id": "ism6416",
+    "code": "ISM 6416",
+    "title": "Building Data Pipelines for AI",
+    "description": "Your local tools and resources for Building Data Pipelines for AI.",
+    "icon": "bi-signpost-split",
+    "enabled": true,
+    "actions": []
+  },
+  "ism6179": {
+    "id": "ism6179",
+    "code": "ISM 6179",
+    "title": "Generative AI and Enterprise Applications",
+    "description": "Your local tools and resources for Generative AI and Enterprise Applications.",
+    "icon": "bi-stars",
+    "enabled": true,
+    "actions": []
+  },
+  "ism6178": {
+    "id": "ism6178",
+    "code": "ISM 6178",
+    "title": "Enterprise Architecture for Scalable AI Deployment",
+    "description": "Your local tools and resources for Enterprise Architecture for Scalable AI Deployment.",
+    "icon": "bi-layers",
+    "enabled": true,
+    "actions": []
+  },
+  "ism6576": {
+    "id": "ism6576",
+    "code": "ISM 6576",
+    "title": "AI Security, Privacy, and Governance",
+    "description": "Your local tools and resources for AI Security, Privacy, and Governance.",
+    "icon": "bi-shield-check",
+    "enabled": true,
+    "actions": []
+  },
+  "ism6174": {
+    "id": "ism6174",
+    "code": "ISM 6174",
+    "title": "Integrating AI into the Enterprise",
+    "description": "Your local tools and resources for Integrating AI into the Enterprise.",
+    "icon": "bi-boxes",
+    "enabled": true,
+    "actions": []
+  }
+}
