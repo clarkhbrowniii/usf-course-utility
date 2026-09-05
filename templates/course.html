@@ -1,28 +1,84 @@
 {% extends 'base.html' %}
 {% block title %}{{ course.code }} · USF Course Utility{% endblock %}
 {% block content %}
-<a class="breadcrumb-link" href="{{ url_for('home') }}"><i class="bi bi-arrow-left" aria-hidden="true"></i> Course explorer</a>
+<a class="breadcrumb-link" href="{{ url_for('home') }}"><i class="bi bi-arrow-left" aria-hidden="true"></i> Course
+  explorer</a>
 <header class="content-heading course-heading">
   <span class="course-emblem"><i class="bi {{ course.icon }}" aria-hidden="true"></i></span>
   <p class="eyebrow">{{ course.code }}</p>
   <h1>{{ course.title }}</h1>
   <p class="program-subtitle">{{ course.description }}</p>
 </header>
-<div class="list-heading"><h2>COURSE UTILITIES</h2><span>{{ course.actions|length }} configured</span></div>
+<div class="list-heading">
+  <h2>COURSE UTILITIES</h2><span>{{ course.actions|length }} configured</span>
+</div>
 {% if not course.actions %}
-<div class="empty-state"><i class="bi bi-tools" aria-hidden="true"></i><h2>A space for what comes next.</h2><p>Course utilities have not yet been configured.</p></div>
+<div class="empty-state"><i class="bi bi-tools" aria-hidden="true"></i>
+  <h2>A space for what comes next.</h2>
+  <p>Course utilities have not yet been configured.</p>
+</div>
 {% endif %}
 <div class="action-list">
   {% for action in course.actions %}
-  <form method="post" action="{{ url_for('run_action', course_code=course.id, action_id=action.id) }}">
+
+  {% if action.get('input') == 'file' %}
+  {# The file action uploads immediately on selection using multipart encoding. #}
+
+  <form method="post" action="{{ url_for(action.endpoint) }}" enctype="multipart/form-data">
+
     <input type="hidden" name="action_token" value="{{ action_token }}">
-    <button class="action-card" type="submit">
-      <span class="card-icon"><i class="bi {{ action.icon }}" aria-hidden="true"></i></span>
-      <span class="card-copy"><span class="action-title">{{ action.label }}</span><span class="action-description">{{ action.description }}</span></span>
+
+    <input type="file" name="course_zip" accept="{{ action.get('accept', '.zip') }}" hidden
+      onchange="this.form.submit()">
+
+    <button class="action-card" type="button" onclick="this.form.querySelector('input[type=file]').click()">
+
+      <span class="card-icon">
+        <i class="bi {{ action.icon }}" aria-hidden="true"></i>
+      </span>
+
+      <span class="card-copy">
+        <span class="action-title">{{ action.label }}</span>
+        <span class="action-description">{{ action.description }}</span>
+      </span>
+
       <i class="bi bi-chevron-right card-chevron" aria-hidden="true"></i>
     </button>
   </form>
+
+  {% else %}
+  {# Endpoint names in courses.json match the explicit route functions in app.py. #}
+
+  <form method="post" action="{{ url_for(action.endpoint) }}">
+    <input type="hidden" name="action_token" value="{{ action_token }}">
+
+    <button class="action-card" type="submit">
+      <span class="card-icon">
+        <i class="bi {{ action.icon }}" aria-hidden="true"></i>
+      </span>
+
+      <span class="card-copy">
+        <span class="action-title">{{ action.label }}</span>
+        <span class="action-description">{{ action.description }}</span>
+      </span>
+
+      <i class="bi bi-chevron-right card-chevron" aria-hidden="true"></i>
+    </button>
+  </form>
+
+  {% endif %}
+
   {% endfor %}
-  <a class="action-card home-action" href="{{ url_for('home') }}"><span class="card-icon"><i class="bi bi-house-fill" aria-hidden="true"></i></span><span class="card-copy"><span class="action-title">Home</span><span class="action-description">Return to Graduate Course Experiences.</span></span><i class="bi bi-chevron-right card-chevron" aria-hidden="true"></i></a>
+
+  <a class="action-card home-action" href="{{ url_for('home') }}">
+    <span class="card-icon">
+      <i class="bi bi-house-fill" aria-hidden="true"></i>
+    </span>
+    <span class="card-copy">
+      <span class="action-title">Home</span>
+      <span class="action-description">Return to Graduate Course Experiences.</span>
+    </span>
+    <i class="bi bi-chevron-right card-chevron" aria-hidden="true"></i>
+  </a>
 </div>
 {% endblock %}

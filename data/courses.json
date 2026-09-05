@@ -9,12 +9,16 @@
     "actions": [
       {
         "id": "update",
+        "endpoint": "update_ism6346",
         "label": "Update Course Experience",
         "icon": "bi-arrow-clockwise",
-        "description": "Refresh local course content and resources."
+        "description": "Refresh local course content and resources.",
+        "input": "file",
+        "accept": ".zip"
       },
       {
         "id": "launch",
+        "endpoint": "launch_ism6346",
         "label": "Launch Course Experience",
         "icon": "bi-play-fill",
         "description": "Open the Digital Business Transformation course experience."
@@ -31,12 +35,14 @@
     "actions": [
       {
         "id": "oracle",
+        "endpoint": "launch_ism6417_oracle",
         "label": "Launch Oracle SQL Developer DB",
         "icon": "bi-database-fill",
         "description": "Open Oracle SQL Developer and the course database environment."
       },
       {
         "id": "dbeaver",
+        "endpoint": "launch_ism6417_dbeaver",
         "label": "Launch DBeaver for Postgres DB",
         "icon": "bi-database-gear",
         "description": "Open DBeaver for the PostgreSQL course database environment."

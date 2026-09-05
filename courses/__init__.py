@@ -7,6 +7,10 @@ from flask import current_app
 
 
 def launch_path(setting, label, *, resource=False):
+    """Launch a configured EXE or associated resource in a Flask app context.
+
+    Available for future actions; current course classes use their own paths.
+    """
     configured = current_app.config.get(setting)
     if not configured or not str(configured).strip():
         current_app.logger.warning("%s is not configured", setting)

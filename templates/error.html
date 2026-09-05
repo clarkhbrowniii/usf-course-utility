@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{# The handler supplies a public message; diagnostic details stay in the log. #}
 <p class="eyebrow">{{ error_code }}</p><h1>Unable to open this view</h1><p class="program-subtitle">{{ message }}</p>
 <a class="action-card" href="{{ url_for('home') }}"><i class="bi bi-house" aria-hidden="true"></i> Return Home</a>
 {% endblock %}

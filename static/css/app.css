@@ -1,4 +1,5 @@
 :root {
+  /* Shared palette for the shell, course cards, and status messages. */
   --usf-green: #006747;
   --usf-dark-green: #003c30;
   --usf-gold: #d7bd7b;
@@ -73,6 +74,7 @@ button:disabled { opacity: .65; cursor: wait; }
 .skip-link:focus { top: 5px; left: 5px; }
 @media (min-width: 1600px) { .utility-content { padding: 36px; } .course-card { padding: 14px; } .course-title { font-size: 13px; } }
 @media (max-width: 760px) {
+  /* Stack the splash above the utilities on narrow screens. */
   .app-shell { height: auto; min-height: 100dvh; grid-template-rows: 44px 1fr 29px; }
   .app-main { grid-template-columns: minmax(0, 1fr); }
   .splash-panel { height: 42vh; min-height: 220px; max-height: 400px; }

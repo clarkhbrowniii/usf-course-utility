@@ -25,6 +25,7 @@
         <div class="panel-tab"><i class="bi {{ course.icon if course else 'bi-house' }}" aria-hidden="true"></i> {{ course.code if course else 'Course explorer' }}<span class="tab-dot"></span></div>
         <div class="utility-content">
           {% for category, message in get_flashed_messages(with_categories=true) %}
+          {# Action results survive the redirect and are displayed once here. #}
           <div class="status-message status-{{ category }}" role="status"><i class="bi bi-info-circle" aria-hidden="true"></i><span>{{ message }}</span></div>
           {% endfor %}
           {% block content %}{% endblock %}

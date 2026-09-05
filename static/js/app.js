@@ -7,6 +7,7 @@ document.querySelectorAll('.action-list form').forEach((form) => {
   });
 });
 window.addEventListener('pageshow', () => {
+  // Restore controls when Back/Forward restores a cached page.
   document.querySelectorAll('.action-list button').forEach((button) => {
     button.disabled = false;
     button.removeAttribute('aria-busy');

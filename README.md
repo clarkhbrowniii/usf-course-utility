@@ -19,7 +19,9 @@ The server binds to loopback with debug disabled. Keep it local: actions open ap
 
 ## Configuration
 
-Edit values in `config.py`, or set matching environment variables before starting the app. Paths default to empty; no installation locations are assumed.
+Current course actions use workstation paths in their `actions.py` modules. For ISM 6346, edit `ISM6346Course.COURSE_DIR` and `COURSE_URL` in `courses/ism6346/actions.py`. For ISM 6417, edit `SQL_DEVELOPER_PATH` and `SQL_DBEAVER_PATH` in `courses/ism6417/actions.py`. Restart after changes.
+
+The optional shared `launch_path` helper uses the following `config.py` settings or matching environment variables. The current course classes do not use this helper.
 
 | Setting | Value |
 | --- | --- |
@@ -31,7 +33,7 @@ For Oracle SQL Developer, locate its installed executable and assign that full p
 
 Database connections are configured inside Oracle SQL Developer and DBeaver. This utility opens those applications; it does not provision or start database servers. Missing paths and failures appear in the course panel and log. Success means Windows accepted the launch request, not that the application or database is ready.
 
-ISM 6346 updates are explicitly unimplemented and change no files. Its launcher uses `Popen` for executables and Windows default associations for local resources. Configure trusted local resources only.
+ISM 6346 Update uploads a ZIP through the browser (100 MiB request limit). The archive must contain `courses`, `student-engine`, and `config.js` at its root. The updater replaces the contents of the existing `dt6000-student-files` directory, including local edits, and has no rollback if extraction fails. Launch starts Python's HTTP server on port 8000 and opens `COURSE_URL`. Each launch starts a separate server console; close that console to stop it.
 
 ## Structure
 
@@ -40,7 +42,7 @@ app.py                         Flask factory, routes, dispatch, status, logging
 config.py                      Workstation paths
 requirements.txt               Flask dependency
 courses/__init__.py            Shared launch helper
-courses/ism6346/actions.py      Update placeholder and experience launcher
+courses/ism6346/actions.py      ZIP upload updater and student-engine launcher
 courses/ism6417/actions.py      Oracle and DBeaver launchers
 data/courses.json              All ten courses and action UI metadata
 templates/base.html            Shared application shell
@@ -59,8 +61,8 @@ The supplied PNG is used unchanged. To use the planned WebP asset later, place i
 ## Add an action or course package
 
 1. Add a function to the course's `actions.py`. Return `(category, message)` using `success`, `warning`, `error`, or `info`. Keep automation here, outside `app.py`.
-2. Register it under the course in `ACTION_HANDLERS` in `app.py`.
-3. Add its matching `id`, `label`, Bootstrap `bi-...` icon, and `description` to the course's `actions` array in `data/courses.json`.
+2. Add an explicit POST route in `app.py`, such as `/course/ism6346/update`. Call `run_course_action(course_code, handler)` to validate the form, run the action, display its result, and redirect to the course page.
+3. Add its `id`, `endpoint` (the route function name), `label`, Bootstrap `bi-...` icon, and `description` to the course's `actions` array in `data/courses.json`.
 4. Put machine paths in `config.py`. Validate launch targets and log failures.
 
 For another course, create `courses/<course_id>/__init__.py` and `actions.py` only when actual behavior exists, then follow those steps. All ten courses already use the shared template; the other eight show a placeholder and Home navigation. Metadata's `enabled` flag controls navigation and route availability.
