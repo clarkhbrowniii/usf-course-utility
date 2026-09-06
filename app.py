@@ -92,6 +92,16 @@ def create_app(test_config=None):
         """Start the course server and open its student page."""
         return run_course_action("ism6346", ism6346.launch_course_experience)
 
+    @app.post("/course/ism6346/folder")
+    def open_ism6346_folder():
+        """Open the ISM 6346 root directory."""
+        return run_course_action("ism6346", ism6346.open_course_folder)
+
+    @app.post("/course/ism6417/folder")
+    def open_ism6417_folder():
+        """Open the ISM 6417 root directory."""
+        return run_course_action("ism6417", ism6417.open_course_folder)
+
     @app.post("/course/ism6417/oracle")
     def launch_ism6417_oracle():
         """Open Oracle SQL Developer on this workstation."""

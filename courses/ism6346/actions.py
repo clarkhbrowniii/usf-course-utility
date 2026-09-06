@@ -1,4 +1,5 @@
 """Install uploaded course content and launch the student engine."""
+import os
 import shutil
 import subprocess
 import sys
@@ -21,6 +22,11 @@ class ISM6346Course:
         "&sid=cbrown"
         "&sname=Clark%20Brown"
     )
+
+    def open_course_folder(self):
+        """Open the configured course root in Windows File Explorer."""
+        os.startfile(current_app.config["ISM6346_ROOT_DIR"])
+        return "success", "ISM 6346 course folder opened."
 
     def update_course_experience(self, course_zip):
         """Replace installed content using an uploaded Werkzeug ZIP stream."""

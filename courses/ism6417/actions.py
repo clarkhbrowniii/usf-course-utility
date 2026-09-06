@@ -5,6 +5,11 @@ from flask import current_app
 class ISM6417Course:
     """Return status messages; Windows errors propagate to the route handler."""
 
+    def open_course_folder(self):
+        """Open the configured course root in Windows File Explorer."""
+        os.startfile(current_app.config["ISM6417_ROOT_DIR"])
+        return "success", "ISM 6417 course folder opened."
+
     def launch_oracle_sql_developer(self):
         """Open SQL Developer; database connections are configured in that app."""
         os.startfile(current_app.config["ISM6417_ORACLE_TARGET"])
