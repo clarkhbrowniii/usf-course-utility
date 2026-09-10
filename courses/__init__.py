@@ -2,20 +2,22 @@
 import os
 from pathlib import Path
 import subprocess
+import webbrowser
 
 from flask import current_app
 
 
 def launch_path(setting, label, *, resource=False):
-    """Launch a configured EXE or associated resource in a Flask app context.
-
-    Available for future actions; current course classes use their own paths.
-    """
+    """Launch a configured EXE, local resource, or HTTP(S) URL in an app context."""
     configured = current_app.config.get(setting)
     if not configured or not str(configured).strip():
         current_app.logger.warning("%s is not configured", setting)
         return "warning", f"{label} path is not configured."
     try:
+        if resource and str(configured).lower().startswith(("http://", "https://")):
+            webbrowser.open(str(configured))
+            current_app.logger.info("Launch requested for %s", label)
+            return "success", f"{label} launched."
         path = Path(configured).expanduser()
         if not path.is_absolute() or not path.exists():
             current_app.logger.warning("Invalid %s: %s", setting, path)

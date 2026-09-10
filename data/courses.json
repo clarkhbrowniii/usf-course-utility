@@ -8,15 +8,6 @@
     "enabled": true,
     "actions": [
       {
-        "id": "update",
-        "endpoint": "update_ism6346",
-        "label": "Update Course Experience",
-        "icon": "bi-arrow-clockwise",
-        "description": "Refresh local course content and resources.",
-        "input": "file",
-        "accept": ".zip"
-      },
-      {
         "id": "launch",
         "endpoint": "launch_ism6346",
         "label": "Launch Course Experience",

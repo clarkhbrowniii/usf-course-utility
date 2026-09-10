@@ -18,7 +18,7 @@ def create_app(test_config=None):
     ism6346 = ISM6346Course()
     ism6417 = ISM6417Course()
     app.config.from_object("config")
-    # Restarting invalidates old sessions; ZIP uploads are capped at 100 MiB.
+    # Restarting invalidates old sessions; requests are capped at 100 MiB.
     app.config.update(SECRET_KEY=secrets.token_hex(32), SESSION_COOKIE_SAMESITE="Strict",
                       MAX_CONTENT_LENGTH=100 * 1024 * 1024, TRUSTED_HOSTS=["127.0.0.1", "localhost", "[::1]"])
     if test_config:
@@ -64,7 +64,7 @@ def create_app(test_config=None):
         """Shared form validation, status reporting, and return navigation."""
         get_course(course_code)
         token = session.get("action_token", "")
-        # Validate before running handlers that launch programs or replace files.
+        # Validate before running launch handlers.
         if not token or not secrets.compare_digest(token, request.form.get("action_token", "")):
             abort(400, description="This action form expired. Return to the course and try again.")
         app.logger.info("Action invoked: %s", request.path)
@@ -77,19 +77,9 @@ def create_app(test_config=None):
         # HTTP 303 prevents refresh from repeating the action's POST request.
         return redirect(url_for("course_page", course_code=course_code), code=303)
 
-    @app.post("/course/ism6346/update")
-    def update_ism6346():
-        """Forward the ZIP; the lambda defers work until validation passes."""
-        course_zip = request.files.get("course_zip")
-
-        return run_course_action(
-            "ism6346",
-            lambda: ism6346.update_course_experience(course_zip)
-        )
-
     @app.post("/course/ism6346/launch")
     def launch_ism6346():
-        """Start the course server and open its student page."""
+        """Open the provider-hosted course experience."""
         return run_course_action("ism6346", ism6346.launch_course_experience)
 
     @app.post("/course/ism6417/oracle")

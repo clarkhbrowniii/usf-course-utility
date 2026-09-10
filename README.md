@@ -1,4 +1,4 @@
-﻿# USF Course Utility
+# USF Course Utility
 
 A local desktop-style launcher for the USF **MS in AI in Business & Enterprise Integration** program. Uses Python, Flask, Jinja2, Bootstrap 5, Bootstrap Icons, custom CSS, and minimal JavaScript. No database or frontend build system.
 
@@ -20,12 +20,12 @@ The server binds to loopback with debug disabled. Keep it local: actions open ap
 ## Configuration
 
 1. Copy `config.example.py` to `config.py` before starting the application.
-2. Edit `ISM6346_COURSE_DIR`, `ISM6417_ORACLE_TARGET`, and `ISM6417_DBEAVER_TARGET` with your machine's local paths, then restart the application.
+2. Set `ISM6346_COURSE_TARGET` to the provider-hosted course URL and set `ISM6417_ORACLE_TARGET` and `ISM6417_DBEAVER_TARGET` to your machine's local application paths, then restart the application.
 3. `config.py` is intentionally excluded from Git because it contains machine-specific configuration. The public template contains only generic placeholders.
 
 Database connections are configured inside Oracle SQL Developer and DBeaver. This utility opens those applications; it does not provision or start database servers. Missing paths and failures appear in the course panel and log. Success means Windows accepted the launch request, not that the application or database is ready.
 
-ISM 6346 Update uploads a ZIP through the browser (100 MiB request limit). The archive must contain `courses`, `student-engine`, and `config.js` at its root. The updater replaces the contents of the existing `dt6000-student-files` directory, including local edits, and has no rollback if extraction fails. Launch starts Python's HTTP server on port 8000 and opens `COURSE_URL`. Each launch starts a separate server console; close that console to stop it.
+ISM 6346 Launch opens the URL configured in `ISM6346_COURSE_TARGET` in your browser. The course provider maintains the content server side; no local course installation or update upload is needed.
 
 ## Structure
 
@@ -34,7 +34,7 @@ app.py                         Flask factory, routes, dispatch, status, logging
 config.py                      Workstation paths
 requirements.txt               Flask dependency
 courses/__init__.py            Shared launch helper
-courses/ism6346/actions.py      ZIP upload updater and student-engine launcher
+courses/ism6346/actions.py      Provider-hosted course launcher
 courses/ism6417/actions.py      Oracle and DBeaver launchers
 data/courses.json              All ten courses and action UI metadata
 templates/base.html            Shared application shell
@@ -53,7 +53,7 @@ The supplied PNG is used unchanged. To use the planned WebP asset later, place i
 ## Add an action or course package
 
 1. Add a function to the course's `actions.py`. Return `(category, message)` using `success`, `warning`, `error`, or `info`. Keep automation here, outside `app.py`.
-2. Add an explicit POST route in `app.py`, such as `/course/ism6346/update`. Call `run_course_action(course_code, handler)` to validate the form, run the action, display its result, and redirect to the course page.
+2. Add an explicit POST route in `app.py`, such as `/course/ism6346/launch`. Call `run_course_action(course_code, handler)` to validate the form, run the action, display its result, and redirect to the course page.
 3. Add its `id`, `endpoint` (the route function name), `label`, Bootstrap `bi-...` icon, and `description` to the course's `actions` array in `data/courses.json`.
 4. Put machine paths in `config.py`. Validate launch targets and log failures.
 
