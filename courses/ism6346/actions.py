@@ -1,13 +1,12 @@
-"""Install uploaded course content and launch the student engine."""
+"""Course actions for Digital Business Transformation Foundations."""
 import os
 import shutil
-import subprocess
-import sys
-import time
-import webbrowser
 import zipfile
 from pathlib import Path
+
 from flask import current_app
+
+from courses import launch_path
 
 
 class ISM6346Course:
@@ -37,7 +36,6 @@ class ISM6346Course:
 
         try:
             with zipfile.ZipFile(course_zip, "r") as zip_file:
-
                 root_items = {
                     # Assets must be at the ZIP root, not inside a wrapper folder.
                     Path(name).parts[0]
@@ -62,7 +60,6 @@ class ISM6346Course:
                     else:
                         item.unlink()
 
-                # Extract the new course files
                 zip_file.extractall(student_files)
 
         except zipfile.BadZipFile:
@@ -71,27 +68,7 @@ class ISM6346Course:
         return "success", "ISM 6346 course experience updated successfully."
 
     def launch_course_experience(self):
-        """Start a separate HTTP server and open the configured student URL."""
-        student_files = Path(current_app.config["ISM6346_COURSE_DIR"]) / "dt6000-student-files"
-
-        if not student_files.exists():
-            return "error", "Course experience files could not be found."
-
-        subprocess.Popen(
-            # Each launch starts a server; its separate console controls its lifetime.
-            [
-                sys.executable,
-                "-m",
-                "http.server",
-                "8000",
-            ],
-            cwd=student_files,
-            creationflags=subprocess.CREATE_NEW_CONSOLE,
+        """Open the configured student URL through the shared launcher."""
+        return launch_path(
+            "ISM6346_COURSE_TARGET", "ISM 6346 course experience", resource=True
         )
-
-        time.sleep(2)
-        # The startup delay above does not verify server readiness.
-
-        webbrowser.open(self.COURSE_URL)
-
-        return "success", "ISM 6346 course experience launched."
