@@ -13,6 +13,13 @@
         "label": "Launch Course Experience",
         "icon": "bi-play-fill",
         "description": "Open the Digital Business Transformation course experience."
+      },
+      {
+        "id": "folder",
+        "endpoint": "open_ism6346_folder",
+        "label": "Open Course Folder",
+        "icon": "bi-folder2-open",
+        "description": "Open the ISM 6346 root directory in File Explorer."
       }
     ]
   },

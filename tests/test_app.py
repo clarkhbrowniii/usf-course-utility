@@ -120,7 +120,8 @@ class UtilityTests(unittest.TestCase):
         self.assertNotIn("Update Course Experience", page.text)
         self.assertNotIn('type="file"', page.text)
         self.assertIn("Launch Course Experience", page.text)
-        self.assertIn("1 configured", page.text)
+        self.assertIn("Open Course Folder", page.text)
+        self.assertIn("2 configured", page.text)
         self.assertEqual(self.client.get("/course/ism6346/update").status_code, 404)
         self.assertEqual(self.post_action("ism6346", "update").status_code, 404)
 
